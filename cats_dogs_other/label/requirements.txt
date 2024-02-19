@@ -1,2 +1,5 @@
-aiohttp==3.9.1
-pymupdf==1.23.8
+boto3
+tensorflow 
+matplotlib 
+scipy
+mlflow
