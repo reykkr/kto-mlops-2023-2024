@@ -13,9 +13,9 @@ model = Inference("./cats_dogs_other/api/resources/model.h5")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # this scheme comes from FastAPI. It allows to check some token information and give the token to the function
 
-issuer = os.getenv("OAUTH2_ISSUER") # This is a value from an environment variable. It allows us to not hard code some information
-audience = os.getenv("OAUTH2_AUDIENCE") # this line is new
-jwks_uri = os.getenv("OAUTH2_JWKS_URI") # this line is new
+issuer = "https://dev-opk8nnrjf8iqvbje.us.auth0.com/" # This is a value from an environment variable. It allows us to not hard code some information
+audience = "https://reykkr-cats-dogs.com" # this line is new
+jwks_uri = ".well-known/jwks.json" # this line is new
 logger = logging.getLogger(__name__) # this line is new
 authentication = Authentication(logger, issuer, ServiceGet(logger), jwks_uri) # This object will check deeper the validity of the token
 skip_oidc = False # this boolean will be used for tests purproses. By default and in production, it will be always False
