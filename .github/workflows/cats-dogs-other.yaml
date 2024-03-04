@@ -2,7 +2,7 @@ name: Cats and dogs CI/CD
 on: 
   push:
     branches:
-      - step**
+      - ghaddar/step05
 
 jobs:
   train:
@@ -19,7 +19,12 @@ jobs:
           ./init_packages.sh
           pip install -r ./cats_dogs_other/requirements.txt
           pip install -r ./cats_dogs_other/label/requirements.txt
+          pip install -r ./cats_dogs_other/api/requirements.txt
+          # For tests purposes, we copy an existing .h5 file in the folder api/resources
+          # We will delete it just after the tests
+          cp ./cats_dogs_other/train/steps/tests/test/input/model/final_model.h5 ./cats_dogs_other/api/resources/model.h5 
           python -m unittest
+          rm ./cats_dogs_other/api/resources/model.h5
       - name: Install mlflow
         run: |
           pip install mlflow[extras]
@@ -48,6 +53,6 @@ jobs:
           
           cd cats_dogs_other/train
           mlflow run . --experiment-name cats-dogs-other --backend kubernetes --backend-config kubernetes_config.json
-      - name: Asleep kto-mlflow and dailyclean
+      - name: Asleep kto-mlflow with dailyclean
         run: |
           curl -X POST ${{vars.DAILYCLEAN_ROUTE}}/pods/stop
